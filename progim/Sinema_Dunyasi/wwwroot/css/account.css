@@ -1,0 +1,48 @@
+﻿
+
+
+.account-image {
+    background-image: url("../images/pexels-cottonbro-4722577.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: repeat-y;
+    
+    min-height: 100vh;
+}
+.account-container {
+    backdrop-filter: blur(20px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.account-box {
+    background-color: #ffffff82;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    max-width: 500px;
+    width: 100%;
+    opacity: .9;
+}
+
+
+
+.navbar-nav {
+    display: flex; /* Öğeleri yatay hizalar */
+    gap: 10px; /* Öğeler arasındaki boşluk */
+}
+
+    .navbar-nav .nav-item .nav-link {
+        color: white !important;
+        padding: 5px 15px;
+        border: 1px solid white;
+        border-radius: 4px;
+        transition: background-color 0.3s ease;
+    }
+
+        .navbar-nav .nav-item .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white !important;
+        }
+

@@ -1,0 +1,74 @@
+﻿@model Sinema_Dunyasi.Models.DTO.MovieListVm
+@{
+    Layout = "_Layout";
+}
+@*------- sweetalert kütüphanesi 17 ------------*@
+
+
+<section class="search-bar">
+    <form method="get" asp-action="Index">
+        <input type="text" name="term" placeholder="film ara">
+        <button type="submit"><i class="fa fa-search"></i></button>
+        <a class="btn btn-default" href="/Home/Index">tüm filmler</a>
+    </form>
+</section>
+
+<section class="movies">
+    @foreach (var movie in Model.MovieList)
+    {
+        <div class="movie-card imagedivindex">
+            <div class="movie-image">
+                <img src="/Uploads/@movie.MovieImage">
+            </div>
+            <div class="movie-info">
+                <h4 class="divh4"><span>Başlık : </span> @movie.Title</h4>
+                <h4 class="divh"><span>Tür : </span> @movie.GenreNames</h4>
+                <h4 class="divh"><span>Yayın Yılı : </span> @movie.ReleaseYear</h4>
+            </div>
+            <div class="movie-actions">
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <a href="/Cart/AddToCart?movieId=@movie.Id" class="btn btn-primary">
+                        Fiyat : @movie.Price
+                    </a>
+                }
+                else
+                {
+                    <button type="button" class="btn btn-primary" onclick="showLoginMessage()">
+                        Fiyat : @movie.Price
+                    </button>
+                }
+                <a href="/Home/MovieDetail?movieId=@movie.Id" class="btn btn-default">
+                    <i class="bi bi-eye-fill"></i> &#xF33E; Göz at
+                </a>
+            </div>
+        </div>
+    }
+</section>
+
+<div class="pagination">
+    @for (int i = 1; i <= Model.TotalPages; i++)
+    {
+        if (i == Model.CurrentPage)
+        {
+            <a href="/Home/Index?currentPage=@i&term=@Model.Term" class="active">@i</a>
+        }
+        else
+        {
+            <a href="/Home/Index?currentPage=@i&term=@Model.Term">@i</a>
+        }
+    }
+</div>
+
+@*------- sweetalert kütüphanesi 17 ------------*@
+
+<script>
+    function showLoginMessage() {
+        Swal.fire({
+            title: 'Giriş Yapmalısınız',
+            text: 'Satın almak için giriş yapmalısınız.',
+            icon: 'warning',
+            confirmButtonText: 'Tamam'
+        });
+    }
+</script>

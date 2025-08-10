@@ -1,0 +1,223 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Sinema_Dunyasi</title>
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Sinema_Dunyasi.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/header.css" asp-append-version="true">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/forms.css">
+    <link rel="stylesheet" href="/css/Contact.css">
+    <link rel="stylesheet" href="/css/bootswatchStyle.css">
+    <script type="importmap"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&family=Patua+One&family=Prompt:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,400;0,500;0,700;0,900;1,400;1,500;1,700;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="icon" href="/images/movie_filter_FILL0_wght400_GRAD0_opsz48.svg">
+    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    @* DataTables için stil ekleyin *@
+    <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet" />
+</head>
+<body>
+    <header>
+        <div class="container-fluid top-bar px-5 py-1 fixed-top">
+            <div class="row">
+                <div class="col-4 d-lg-none">
+                    <div class="h-100 d-flex align-items-center">
+                        <button class="btnToggler me-lg-5 border-0" type="button" data-bs-toggle="offcanvas"
+                                data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar"
+                                aria-label="Toggle navigation">
+                            <span class="btn-option bg-white d-flex align-items-center justify-content-center">
+                                <i class="fa-solid fa-bars fa-xl" style="color: var(--dark-color);"></i>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-8 d-none d-lg-block">
+                    <p class="d-flex align-items-center justify-content-center text-white h-100">
+                        <i>
+                            "Sinema dünyamıza hoş geldiniz değerli kullanıcılarımız !"
+                        </i>
+                    </p>
+                </div>
+                <div class="col-8 col-lg-4 text-end">
+                    <div class="d-flex align-items-center justify-content-end h-100">
+                        <div class="btn-giris">
+                            <div class="position-relative ms-2">
+                                <button class="icon-container text-decoration-none border-0 d-flex justify-content-center align-items-center"
+                                        data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fa-solid fa-user fa-lg me-sm-1" style="color: var(--dark-color);"></i>
+                                    <span class="d-none d-sm-block">Giriş Yap</span>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a asp-controller="Account" asp-action="Login" class="kullanici-link dropdown-item text-dark p-2">Kullanıcı</a>
+                                    </li>
+                                    <li>
+                                        <a asp-controller="Account" asp-action="AdminGiris" class="admin-link dropdown-item text-dark p-2">Admin</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>       
+            <div class="row justify-content-center navdiv">
+                <div class="col-12">
+                    <div class="row">
+                    <div class="col-12 col-lg-3 imgdiv">
+                            <a class="navbar-brand h-100 d-flex align-items-center justify-content-center"
+                               asp-controller="Home" asp-action="Index">
+                                <img class="logo" src="~/images/1.png" alt="logo"
+                                     style="width: 160px;">
+
+                            </a>
+                        </div>
+                        <div class="col-9 text-start d-none d-lg-block">
+                            <nav class="navbar navbar-expand-lg d-none d-lg-block">
+                            <ul class="kullanici-nav navbar-nav gap-1 gap-xl-3 flex-grow-1 ms-lg-3">
+                                    <li class="nav-item px-xl-2">
+                                        <a class="nav-link" asp-controller="Home" asp-action="Index">
+                                        <i class="fa-solid fa-house fa-beat" style="font-size:20px ; margin-right:5px;"></i> Anasayfa
+                                        </a>
+                                    </li>
+                                    <li class="nav-item px-xl-2">
+                                    <a class="nav-link" asp-controller="Home" asp-action="Most_Viewed">
+                                        <i class="fa-solid fa-video fa-beat " style="font-size:20px ; margin-right:5px;"></i> En Çok İzlenenler
+                                        </a>
+                                    </li>
+                                    <li class="nav-item px-xl-2">
+                                    <a class="nav-link" asp-controller="Contact" asp-action="ContactForm">
+                                        <i class="fa-solid fa-phone fa-beat " style="font-size:20px ; margin-right:5px;"></i>
+                                            İletişim
+                                        </a>
+                                    </li>
+                                    <li class="nav-item px-xl-2">
+                                        <a>
+                                        <partial name="_LoginPartial" />
+                                        </a>
+                                    </li>
+                                </ul>
+
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar"
+             aria-labelledby="offcanvasNavbarLabel">
+
+            <div class="offcanvas-body">
+                <div class="d-flex position-relative mb-2">
+                    <div class="img-cont mx-auto mt-4">
+                        <img src="~/images/1.png" alt="logo" style="width: 180px;">
+                    </div>
+                    <button type="button" class="btnClose" data-bs-dismiss="offcanvas" aria-label="Close">
+                        <i class="fa-regular fa-circle-xmark fa-xl"></i>
+                    </button>
+                </div>
+                <div class="hr"></div>
+                <ul class="kullanici-nav navbar-nav gap-1 gap-xl-3 flex-grow-1 ms-lg-3">
+                    <li class="nav-item px-xl-2">
+                        <a class="nav-link" asp-controller="Home" asp-action="Index">
+                            <i class="fa-solid fa-house fa-beat" style="font-size:20px ; margin-right:5px;"></i> Anasayfa
+                        </a>
+                    </li>
+                    <li class="nav-item px-xl-2">
+                        <a class="nav-link" asp-controller="Home" asp-action="Most_Viewed">
+                            <i class="fa-solid fa-video fa-beat " style="font-size:20px ; margin-right:5px;"></i> En Çok İzlenenler
+                        </a>
+                    </li>
+                    <li class="nav-item px-xl-2">
+                        <a class="nav-link" asp-controller="Contact" asp-action="ContactForm">
+                            <i class="fa-solid fa-phone fa-beat " style="font-size:20px ; margin-right:5px;"></i> İletişim
+                        </a>
+                    </li>
+
+                    <li class="nav-item px-xl-2">
+                        <a>
+                            <partial name="_LoginPartial" />
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>     
+    </header>
+    
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+
+    <footer class="footer-distributed">
+        <div class="footer-left">
+            <h3 class="h3">Sayfalar</h3>
+            <p class="footer-links">
+                <a class="a" href="/Home/Index">Anasayfa</a>
+                |
+                <a class="a" href="/Home/Most_Viewed">En Çok İzlenenler</a>
+                |
+                <a class="a" href="/Contact/ContactForm">İletişim</a>
+                
+            </p>         
+        </div>
+        <div class="footer-center">
+            <div>
+                <i class="fa fa-map-marker"></i>
+                <p><a class="a" href="#">ISPARTA  ISUBÜ</a></p>
+            </div>
+            <div>
+                <i class="fa fa-phone"></i>
+                <p><a class="a" href="#">+90 531 7** 3*89</a></p>
+            </div>
+            <div>
+                <i class="fa fa-envelope"></i>
+                <p><a class="a" href="#">kullanıcı@gmail.com</a></p>
+            </div>
+        </div>
+        <div class="footer-right">
+            <p class="footer-company-about">
+                <span>sosyal medyada da takip et!</span>
+            </p>
+            <div class="footer-icons">
+                <a class="a" href="https://tr-tr.facebook.com/login/device-based/regular/login"><i class="fa fa-facebook"></i></a>
+                <a class="a" href="https://www.prod.instagram.com/accounts/login/?next=%2Fiheartdaviddaub%2Ffeed%2F&source=profile_feed_tab&hl=tr"><i class="fa fa-instagram"></i></a>
+                <a class="a" href="https://tr.linkedin.com/?src=go-pa&trk=sem-ga_campid.19331681909_asid.168715020944_crid.698313460554_kw.linkedin%20giri%C5%9F_d.c_tid.kwd-522315156390_n.g_mt.e_geo.1012780&mcid=7011503728440569856&cid=&gad_source=1&gclid=EAIaIQobChMI_6HWhK7DigMVeMtEBx3qpgIKEAAYASAAEgLwi_D_BwE&gclsrc=aw.ds"><i class="fa fa-linkedin"></i></a>
+                <a class="a" href="https://x.com/i/flow/login?lang=tr&mx=2"><i class="fa fa-twitter"></i></a>
+                <a class="a" href="https://www.youtube.com/"><i class="fa fa-youtube"></i></a>
+            </div>
+        </div>
+         <div class="haklar text-center mt-5 mt-md-3">
+            <p class="text-white p-3 mb-0">
+                © 2024 Sinema dünyası. Tüm Haklar Saklıdır.
+            </p>
+        </div>
+    </footer>
+
+
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.9/dist/sweetalert2.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.7.9/dist/sweetalert2.all.min.js"></script>
+
+    <!-- swiper -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

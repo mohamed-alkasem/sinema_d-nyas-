@@ -1,0 +1,40 @@
+﻿@using Sinema_Dunyasi.ViewModels;
+@model VerifyEmailViewModel;
+@{
+	ViewData["Title"] = "E-postayı Doğrula";
+	Layout = "~/Views/Shared/_AccounLayout.cshtml";
+}
+
+<div class="account-image">
+<div class="account-container">
+	<div class="account-box">
+			<h2 class="text-center mb-4">E-postayı Doğrula</h2>
+		<form asp-action="VerifyEmail" method="post">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+			<div class="mb-3">
+				<label asp-for="Email" class="form-label">E-posta</label>
+				<input asp-for="Email" class="form-control" />
+				<span asp-validation-for="Email" class="text-danger"></span>
+			</div>
+
+			<input type="submit" value="Doğrula" class="btn btn-success w-100 p-2" />
+
+			<div class="text-center mt-2">
+					<a asp-controller="Account" asp-action="Login" class="text-decoration-none mt-3">Geri</a>
+			</div>
+		</form>
+	</div>
+</div>
+</div>
+
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+}
+
+
+
+
+

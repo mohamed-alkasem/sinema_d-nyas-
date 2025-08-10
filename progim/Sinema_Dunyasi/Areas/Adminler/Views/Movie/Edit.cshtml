@@ -1,0 +1,114 @@
+﻿@model Sinema_Dunyasi.Models.Domain.Movie
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<form class="w-40" href="/Adminler/Movie/Edit" method="post" enctype="multipart/form-data">
+    <h2 class="pb-10">Filmi Güncelle</h2>
+    <input type="hidden" class="input" asp-for="Id">
+    <input type="hidden" class="input" asp-for="MovieImage">
+
+    <div class="input-container">
+        <label asp-for="Title" class="w-40">Başlık</label>
+        <input type="text" class="input" asp-for="Title">
+    </div>
+    <div class="message-box pd-x-28 error">
+        <span asp-validation-for="Title"></span>
+    </div>
+
+    <div class="input-container">
+        <label asp-for="ImageFile" class="w-40">Fotoğraf</label>
+        <input type="file" asp-for="ImageFile" onchange="loadFile(event)">
+        <span asp-validation-for="ImageFile" class="error"></span>
+    </div>
+
+    <div class="input-container">
+        <label asp-for="Genres" class="w-40">Türü</label>
+        <select asp-items="Model.MultiGenreList" class="input" asp-for="Genres" multiple>
+            <option value="">--select--</option>
+        </select>
+    </div>
+    <div class="message-box pd-x-28 error">
+        <span asp-validation-for="Genres"></span>
+    </div>
+
+    <div class="input-container">
+        <label asp-for="ReleaseYear" class="w-40">Yayın Yılı</label>
+        <input type="text" class="input" asp-for="ReleaseYear">
+    </div>
+    <div class="message-box pd-x-28 error">
+        <span asp-validation-for="ReleaseYear"></span>
+    </div>
+
+    <div class="input-container">
+        <label asp-for="Cast" class="w-40">Kadro</label>
+        <input type="text" class="input" asp-for="Cast">
+    </div>
+    <div class="message-box pd-x-28 error">
+        <span asp-validation-for="Cast"></span>
+    </div>
+
+    <div class="input-container">
+        <label asp-for="Director" class="w-40">Yönetmen</label>
+        <input type="text" class="input" asp-for="Director">
+    </div>
+    <div class="message-box pd-x-28 error">
+        <span asp-validation-for="Director"></span>
+    </div>
+
+    <div class="input-container">
+        <label asp-for="Price" class="w-40">Fiyat</label>
+        <input type="number" step="0.01" class="input" asp-for="Price">
+    </div>
+    <div class="message-box pd-x-28 error">
+        <span asp-validation-for="Price"></span>
+    </div>
+
+    @if (TempData["msg"] != null)
+    {
+        <div class="alert mb-1">
+            @TempData["msg"]
+        </div>
+    }
+
+    <div class="input-container">
+        <button class="btn btn-default" type="submit">Kaydet</button>
+        <a class="btn btn-sec" href="/Adminler/Movie/MovieList">Tüm kayıtlar</a>
+    </div>
+</form>
+
+<div class="image-preview">
+    @if (!string.IsNullOrEmpty(Model.MovieImage))
+    {
+        <img src="~/Uploads/@Model.MovieImage" alt="Current Image" id="currentImg" />
+    }
+    else
+    {
+        <img src="" alt="Image Preview" id="currentImg" class="d-none" />
+    }
+</div>
+
+<div class="image-preview">
+    <img src="" alt="New Image Preview" id="newImg" class="d-none" />
+</div>
+
+<script>
+    var loadFile = function (event) {
+        // Gizle eski resmi
+        var currentImg = document.getElementById('currentImg');
+        if (currentImg) {
+            currentImg.classList.add('d-none');
+        }
+
+        // Yeni resmi göster
+        var reader = new FileReader();
+        reader.onload = function () {
+            var newImg = document.getElementById('newImg');
+            newImg.src = reader.result;
+            newImg.classList.remove('d-none');
+            newImg.classList.add('border-visible');
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    };
+</script>

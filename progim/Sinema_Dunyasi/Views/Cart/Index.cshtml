@@ -1,0 +1,136 @@
+﻿@model List<Sinema_Dunyasi.Models.Domain.CartItem>
+
+    @*------------ Jquery kütüphanesi 15 ---------------*@
+
+<h2>Alışveriş Sepetiniz</h2>
+
+@if (ViewBag.SuccessMessage != null)
+{
+    <div class="alert alert-success" id="successMessage">
+        @ViewBag.SuccessMessage
+    </div>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>Film</th>
+            <th>Fiyat</th>
+            <th>İşlemler</th>
+        </tr>
+    </thead>
+    <tbody id="cart-items">
+        @foreach (var item in Model)
+        {
+            <tr class="cart-item" data-movie-id="@item.Movie.Id">
+                <td>@item.Movie.Title</td>
+                <td class="price">@item.Movie.Price</td>
+                <td>
+                    <a href="#" class="btn btn-danger remove-link">Sil</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<h3>Toplam: <span style="color:#9f9f9f" id="total">@ViewBag.Total.ToString("C")</span></h3>
+
+<a href="/Home/Index" class="btn btn-primary">Daha fazla ürün ekle</a>
+<a href="/Checkout" id="checkout-button" class="btn btn-success">Ödeme Yap</a>
+<div id="error-message" style="display: none; margin-top: 20px;"></div>
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Ürünü Sil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Bu ürünü sepetinizden silmek istediğinizden emin misiniz?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Sil</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*------------ Jquery kütüphanesi 15 ---------------*@
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        const $totalDisplay = $('#total');
+        const $checkoutButton = $('#checkout-button');
+        const $errorMessageDiv = $('#error-message');
+        const $successMessageDiv = $('#successMessage');
+        let currentDeleteMovieId = null; 
+
+        $('.remove-link').on('click', function (event) {
+            event.preventDefault();
+            const $movieRow = $(this).closest('tr');
+            currentDeleteMovieId = $movieRow.data('movie-id'); 
+
+            
+            $('#confirmDeleteModal').modal('show');
+        });
+
+        $('#confirmDeleteBtn').on('click', function () {
+            const movieId = currentDeleteMovieId;
+
+            $.ajax({
+                url: `/Cart/RemoveFromCart?movieId=${movieId}`,
+                method: 'POST',
+                contentType: 'application/json',
+                success: function (response) {
+                    $(`tr[data-movie-id="${movieId}"]`).remove();
+
+                    updateTotal();
+
+                    $successMessageDiv.text(response.successMessage).show(); 
+                    setTimeout(function () {
+                        $successMessageDiv.fadeOut(); 
+                    }, 3000);
+
+                    $errorMessageDiv.hide();
+
+                    $('#confirmDeleteModal').modal('hide');
+                },
+                error: function () {
+                    showErrorMessage("Ürün silinemedi. Lütfen tekrar deneyin.");
+
+                    $('#confirmDeleteModal').modal('hide');
+                }
+            });
+        });
+
+        $('#cancelDeleteBtn').on('click', function () {
+            $('#confirmDeleteModal').modal('hide');
+        });
+
+        function updateTotal() {
+            let total = 0;
+            $('.cart-item .price').each(function () {
+                total += parseFloat($(this).text().trim());
+            });
+            $totalDisplay.text(total.toLocaleString('tr-TR', { style: 'currency', currency: 'TRY' }));
+        }
+
+        function showErrorMessage(message) {
+            $errorMessageDiv.text(message)
+                .addClass('alert alert-danger')
+                .show();
+        }
+
+        $checkoutButton.on('click', function (event) {
+            const totalValue = parseFloat($totalDisplay.text().replace(/[^0-9,.]/g, '').replace(',', '.'));
+            if (totalValue === 0) {
+                event.preventDefault(); 
+                showErrorMessage("Toplam tutar 0 TL. Ödeme yapılamaz.");
+            }
+        });
+        updateTotal();
+    });
+</script>
+

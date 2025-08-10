@@ -1,0 +1,29 @@
+﻿@model Sinema_Dunyasi.Models.Domain.Genre
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "/Views/Shared/_LayoutAdmin.cshtml";
+}
+@*--------- tag helper 9     ------------*@
+<form class="w-40" href="/Adminler/Genre/Add" method="post">
+    <h2 class="pb-10">Film Türü Ekle</h2>
+    <div class="input-container">
+        <label asp-for="GenreName" class="w-40">Tür Adı</label>
+        <input type="text" class="input" asp-for="GenreName">
+    </div>
+    <div class="message-box pd-x-28 error">
+        <span asp-validation-for="GenreName"> </span>
+    </div>
+
+    @if (TempData["msg"] != null)
+    {
+        <div class="alert mb-1">
+            @TempData["msg"]
+        </div>
+    }
+
+    <div class="input-container">
+        <button class="btn btn-default" type="submit">Kaydet</button>
+        <a class="btn btn-sec" href="/Adminler/Genre/GenreList">Tüm kayıtlar</a>
+    </div>
+</form>
+<br /><br /><br /><br />

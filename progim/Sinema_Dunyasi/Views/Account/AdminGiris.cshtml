@@ -1,0 +1,42 @@
+﻿@using Sinema_Dunyasi.ViewModels
+@model AdminLoginModel
+@{
+    ViewData["Title"] = "Admin Giris";
+    Layout = "~/Views/Shared/_AccounLayout.cshtml";
+
+}
+
+<div class="account-image">
+<div class="account-container">
+	<div class="account-box">
+			<h2 class="text-center mb-4">Admin Giriş</h2>
+        <form asp-action="AdminGiris" asp-controller="Account" method="post">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+			<div class="mb-3">
+				<label asp-for="Email" class="form-label">E-posta</label>
+				<input asp-for="Email" class="form-control"/>
+			</div>
+
+			<div class="mb-3">
+				<label asp-for="Password" class="form-label">Şifre</label>
+				<input asp-for="Password" class="form-control" />
+				<span asp-validation-for="Password" class="text-danger"></span>
+			</div>
+
+			<input type="submit" value="Giriş yap" class="btn btn-success w-100 p-2" />
+
+			<div class="text-center mt-2">
+				<a asp-controller="Home" asp-action="Index" class="text-decoration-none mt-3">Geri</a>
+			</div>
+		</form>
+	</div>
+</div>
+</div>
+
+@section Scripts{
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+}
+

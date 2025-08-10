@@ -1,0 +1,35 @@
+﻿@addTagHelper *, Sinema_Dunyasi
+
+@using Sinema_Dunyasi.MyTagHelpers
+@model Sinema_Dunyasi.Models.Domain.Movie
+
+@* ------- Custom Tag Helper 10 --------*@
+
+@{
+    var isAuthenticated = (bool?)ViewData["IsAuthenticated"] ?? false;
+}
+
+<movie-detail movie="@Model" is-authenticated="@isAuthenticated"></movie-detail>
+<div class="w-80 m-auto">
+    <a href="/Home/Index" style="margin-top:20px;width:120px" class="btn btn-default">Geri</a>
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        <a href="@Url.Action("AddToCart", "Cart", new { movieId = Model.Id })" class="btn btn-default">Fiyat</a>
+    }
+    else
+    {
+        <button type="button" class="btn btn-default" onclick="showLoginMessage()">Fiyat</button>
+    }
+</div>
+
+<script>
+    function showLoginMessage() {
+        Swal.fire({
+            title: 'Giriş Yapmalısınız',
+            text: 'Satın almak için giriş yapmalısınız.',
+            icon: 'warning',
+            confirmButtonText: 'Tamam'
+        });
+    }
+</script>

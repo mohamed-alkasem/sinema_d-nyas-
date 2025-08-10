@@ -1,0 +1,100 @@
+﻿@model IEnumerable<Sinema_Dunyasi.Models.Domain.Genre>
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="tbl-container">
+    <h2>Film Türleri</h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Ad</th>
+                <th>Aksiyon</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr class="genre-row" data-genre-id="@item.Id">
+                    <td>@item.GenreName</td>
+                    <td>
+                        <a href="/Adminler/Genre/Edit?id=@item.Id" class="btn btn-default"><i class="fa fa-edit"></i></a>
+                        <a href="#" class="btn btn-danger delete-genre"><i class="fa fa-trash"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="input-container">
+        <a href="/Adminler/Genre/Add" class="btn btn-sec">Geri</a>
+    </div>
+</div>
+
+<!-- Modal for delete confirmation -->
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Tür Sil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Bu türü silmek istediğinize emin misiniz?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Sil</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="successMessage" class="alert alert-success" style="display: none; margin-top: 20px;"></div>
+<div id="errorMessage" class="alert alert-danger" style="display: none; margin-top: 20px;"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        let currentGenreId = null;
+
+        // Delete button click
+        $('.delete-genre').on('click', function (e) {
+            e.preventDefault();
+            currentGenreId = $(this).closest('tr').data('genre-id');
+            $('#confirmDeleteModal').modal('show');
+        });
+
+        // Confirm delete
+        $('#confirmDeleteBtn').on('click', function () {
+            if (currentGenreId) {
+                $.ajax({
+                    url: `/Adminler/Genre/Delete?id=${currentGenreId}`,
+                    type: 'POST',
+                    success: function (response) {
+                        $(`tr[data-genre-id="${currentGenreId}"]`).remove();
+                        $('#confirmDeleteModal').modal('hide');
+                        showSuccessMessage("Tür başarıyla silindi.");
+                    },
+                    error: function () {
+                        $('#confirmDeleteModal').modal('hide');
+                        showErrorMessage("Tür silinirken bir hata oluştu. Lütfen tekrar deneyin.");
+                    }
+                });
+            }
+        });
+
+        // Show success message
+        function showSuccessMessage(message) {
+            $('#successMessage').text(message).show().delay(3000).fadeOut();
+        }
+
+        // Show error message
+        function showErrorMessage(message) {
+            $('#errorMessage').text(message).show().delay(3000).fadeOut();
+        }
+    });
+</script>

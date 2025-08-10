@@ -1,0 +1,28 @@
+﻿@model IEnumerable<Sinema_Dunyasi.Models.Domain.Contact>
+
+<section id="contact-list">
+    <div class="container">
+        <h2>Gelen Mesajlar</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Ad Soyad</th>
+                    <th>E-posta</th>
+                    <th>Mesaj</th>
+                    <th>Gönderilme Tarihi</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var contact in Model)
+                {
+                    <tr>
+                        <td>@contact.FullName</td>
+                        <td>@contact.Email</td>
+                        <td>@contact.Message</td>
+                        <td>@contact.SubmittedAt.ToString("yyyy-MM-dd HH:mm")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>

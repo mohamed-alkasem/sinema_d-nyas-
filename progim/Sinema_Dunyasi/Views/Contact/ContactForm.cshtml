@@ -1,0 +1,43 @@
+﻿@model Sinema_Dunyasi.Models.Domain.Contact
+@using Sinema_Dunyasi.Helpers
+
+
+@*--------- ViewComponent 23     ------------*@
+@* -------- Custom Html Helper 8 ------------*@
+<section id="Contact-section">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-10">
+                <h2 class="text-center mb-2">Bize Ulaşın</h2>
+                <div class="hr mb-5"></div>
+            </div>
+        </div>
+
+        <!-- TempData mesajları -->
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success">
+                @TempData["Success"]
+            </div>
+        }
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-danger">
+                @TempData["Error"]
+            </div>
+        }
+
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                @Html.ContactInfo() <!-- Custom Html Helper -->
+            </div>
+            <div class="col-md-6">
+                @await Component.InvokeAsync("ContactForm") <!-- ViewComponent -->
+            </div>
+        </div>
+
+        <div class="map-container mt-5">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d12613.906119233954!2d30.540580578045088!3d37.77887070142045!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14c5b759d556f49f%3A0x2396b72a4726b043!2sIsparta%20Uygulamal%C4%B1%20Bilimler%20%C3%9Cniversitesi!5e0!3m2!1str!2str!4v1734972225027!5m2!1str!2str" allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </div>
+</section>

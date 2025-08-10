@@ -1,0 +1,107 @@
+﻿@model Sinema_Dunyasi.Models.DTO.MovieListVm
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="tbl-container">
+    <h2>Filmler</h2>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Başlık</th>
+                <th>Türü</th>
+                <th>Yayınyılı</th>
+                <th>Fotoğraf</th>
+                <th>Kadro</th>
+                <th>Fiyat</th>
+                <th>Yönetmen</th>
+                <th>Aksiyon</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.MovieList)
+            {
+                <tr class="movie-row" data-movie-id="@item.Id">
+                    <td>@item.Title</td>
+                    <td>@item.GenreNames</td>
+                    <td>@item.ReleaseYear</td>
+                    <td><img style="height:60px;width:80px" src="/Uploads/@item.MovieImage" /></td>
+                    <td style="    width: 200px">@item.Cast</td>
+                    <td>@item.Price</td>
+                    <td>@item.Director</td>
+                    <td>
+                        <a href="/Adminler/Movie/Edit?id=@item.Id" class="btn btn-default"><i class="fa fa-edit"></i></a>
+                        <a href="#" class="btn btn-danger delete-movie"><i class="fa fa-trash"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="input-container">
+        <a href="/Adminler/Movie/Add" style="margin-top:20px;width:120px" class="btn btn-sec">Back</a>
+    </div>
+</div>
+
+<div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmDeleteModalLabel">Film Sil</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Bu filmi silmek istediğinize emin misiniz?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">İptal</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Sil</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="successMessage" class="alert alert-success" style="display: none; margin-top: 20px;"></div>
+<div id="errorMessage" class="alert alert-danger" style="display: none; margin-top: 20px;"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        let currentMovieId = null;
+
+        $('.delete-movie').on('click', function (e) {
+            e.preventDefault();
+            currentMovieId = $(this).closest('tr').data('movie-id');
+            $('#confirmDeleteModal').modal('show');
+        });
+
+        $('#confirmDeleteBtn').on('click', function () {
+            if (currentMovieId) {
+                $.ajax({
+                    url: `/Adminler/Movie/Delete?id=${currentMovieId}`,
+                    type: 'POST',
+                    success: function (response) {
+                        $(`tr[data-movie-id="${currentMovieId}"]`).remove();
+                        $('#confirmDeleteModal').modal('hide');
+                        showSuccessMessage("Film başarıyla silindi.");
+                    },
+                    error: function () {
+                        $('#confirmDeleteModal').modal('hide');
+                        showErrorMessage("Film silinirken bir hata oluştu. Lütfen tekrar deneyin.");
+                    }
+                });
+            }
+        });
+
+        function showSuccessMessage(message) {
+            $('#successMessage').text(message).show().delay(3000).fadeOut();
+        }
+
+        function showErrorMessage(message) {
+            $('#errorMessage').text(message).show().delay(3000).fadeOut();
+        }
+    });
+</script>

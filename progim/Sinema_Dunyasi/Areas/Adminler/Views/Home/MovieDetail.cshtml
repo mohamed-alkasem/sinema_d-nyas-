@@ -1,0 +1,22 @@
+﻿@model Sinema_Dunyasi.Models.Domain.Movie
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="movie-detail w-80 m-auto">
+    <div class="img-container">
+        <img alt="image" src="/Uploads/@Model.MovieImage">
+    </div>
+
+    <div class="detail-container">
+        <h3 class="divh4"><span>Başlık :</span> @Model.Title</h3>
+        <h4 class="divh1"><span>Yayın Yılı :</span> @Model.ReleaseYear</h4>
+        <h4 class="divh1"><span>Kadro :</span> @Model.Cast</h4>
+        <h4 class="divh1"><span>Yönetmen :</span> @Model.Director</h4>
+        <h4 class="divh1"><span>Fiyat :</span> @Model.Price</h4>
+    </div>
+</div>
+<div class="w-80 m-auto">
+    <a href="/Adminler/Home/Index" style="margin-top:20px;width:120px" class="btn btn-default">Geri</a>
+</div>
